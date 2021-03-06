@@ -19,6 +19,12 @@
 	   FROM users
     </select>
 
+    <select id="getCusor" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM users
+    </select>
+
     <select id="getOne" parameterType="java.lang.Long" resultMap="BaseResultMap" >
         SELECT 
        <include refid="Base_Column_List" />
@@ -32,6 +38,16 @@
        		(userName,passWord,user_sex) 
        	VALUES
        		(#{userName}, #{passWord}, #{userSex})
+    </insert>
+
+    <insert id="insertBatch" parameterType="com.neo.model.User" >
+       INSERT INTO
+       		users
+       		(userName,passWord,user_sex)
+       	VALUES
+        <foreach collection ="list" item="user" separator =",">
+            (#{user.userName}, #{user.passWord}, #{user.userSex})
+        </foreach >
     </insert>
     
     <update id="update" parameterType="com.neo.model.User" >
